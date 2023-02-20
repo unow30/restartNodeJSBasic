@@ -1,33 +1,26 @@
-// const http = require('http');
-
 const express = require('express');
 
 const app = express(); //유용한 요청 핸들러
 
-app.use((req, res, next) => {
+//모든 요청에서 실행하길 바라는 미들웨어를 만들려면 route를 '/'로 한다.
+app.use('/', (req,res,next)=>{
+    //이 미들웨어가 가장 먼저 실행될 것이다.
+    console.log('this is always run')
+    next();
+})
+
+//요청은 위에서 아래로 내려가는데, 미들웨어에서 next를 호출하지 않으면
+//다음 미들웨어로 넘어가지 않는다.
+app.use('/add-product', (req, res, next) => {
     console.log('In the middleware');
-    next(); //next()를 통해 아래 app.use()미들웨어가 실행된다.
+    res.send('<h1>add product</h1>');
+    //res()실행 후 다른 responsesk next()등 하나 이상의 응답을 보내면 에러가 난다.
 });
 
-app.use((req, res, next) => {
-    console.log('In other middleware');
-    
-    //유틸리티 함수 send
+app.use('/', (req, res, next) => {
+    console.log('In the middleware');
     res.send('<h1>hello express</h1>');
 });
 
-// const server = http.createServer(app);
-// server.listen(3000);
 
-//더 짧은 방법
-//lib > application.js 확인
 app.listen(3000);
-
-
-//lib > application.js 확인
-// app.listen = function listen(){
-// 	var server = http.createServer(this);
-// 	return server.listen.apply(server, arguments);
-// }
-
-//http를 이미 실행해주고 있다. 위에 임포트한 http는 필요없어졌다.
