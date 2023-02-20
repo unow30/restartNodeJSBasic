@@ -1,24 +1,26 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express(); //유용한 요청 핸들러
+//이 미들웨어는 next()를 호출하여 다음 미들웨어데 도달하게 한다.
+//form으로 보내는 본문을 분석해준다.
+app.use(bodyParser.urlencoded({extended:false}));
 
-//모든 요청에서 실행하길 바라는 미들웨어를 만들려면 route를 '/'로 한다.
-app.use('/', (req,res,next)=>{
-    //이 미들웨어가 가장 먼저 실행될 것이다.
-    console.log('this is always run')
-    next();
-})
-
-//요청은 위에서 아래로 내려가는데, 미들웨어에서 next를 호출하지 않으면
-//다음 미들웨어로 넘어가지 않는다.
 app.use('/add-product', (req, res, next) => {
-    console.log('In the middleware');
-    res.send('<h1>add product</h1>');
-    //res()실행 후 다른 responsesk next()등 하나 이상의 응답을 보내면 에러가 난다.
+    //post로 form 요청 보내기 연습
+    res.send('<form action="/product" method="post"><input type="text" name="title"><button type="submit">Add Product</button></form>')
+});
+
+//next 안쓸거면 생략 가능
+app.use('/product', (req, res)=>{
+    //리다이렉트하고 들어오는 request 데이터를 콘솔로 표시할 것이다.
+    console.log(req.body);
+
+    // '/'로 재요청이 될 것이다.
+    res.redirect('/');
 });
 
 app.use('/', (req, res, next) => {
-    console.log('In the middleware');
     res.send('<h1>hello express</h1>');
 });
 
