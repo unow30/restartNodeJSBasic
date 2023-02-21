@@ -16,5 +16,11 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(adminRoutes);
 app.use(shopRoutes);
 
+//잘못된 요청이 발생하면 에러표시 호출
+//'/'경로를 추가해도 된다. 기본값으로 실행한다.
+app.use((req, res, next)=>{
+    //status()는 어디든 사용할 수 있다.
+    res.status().send('<h1>page no found</h1>')
+})
 
 app.listen(3000);
