@@ -10,6 +10,12 @@ const shopRoutes = require('./routes/shop');
 
 app.use(bodyParser.urlencoded({extended:false}));
 
+//정적 파일 제공 미들웨어
+//사용자가 public 경로에 엑세스할 수 있다.
+//확장자를 살펴보고 .css나 .js를 찾는 요청이라면 자동으로 public폴더로 포워딩해준다.
+//그러므로 경로를 입력할 때 public이 포함되면 안된다.
+app.use(express.static(path.join(__dirname, 'public')));
+
 //url안에 경로에 적힌 구문이 있다면 해당 라우트를 필터하여 실행한다.
 app.use('/admin', adminRoutes);
 app.use('/shop', shopRoutes);

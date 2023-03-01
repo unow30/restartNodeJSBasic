@@ -8,7 +8,7 @@ const path = require('path')
 // 따라서 path.dirname(require.main.filename)은 현재 Node.js 애플리케이션의 진입 모듈(main module)이 위치한 디렉토리 경로를 반환합니다.
 
 // root폴더, 다음 폴더, 파일 경로
-const findRoute = (folderName, fileName) => {
+module.exports = (folderName, fileName) => {
 
     // if(typeof folderName !== 'string' || typeof fileName !== 'string'){
     //     console.log('its not match folderName|fileName');
@@ -18,5 +18,3 @@ const findRoute = (folderName, fileName) => {
     console.log(rootDir)
     return path.join(rootDir, folderName, fileName)
 }
-
-module.exports = findRoute
